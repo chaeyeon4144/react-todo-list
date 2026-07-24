@@ -34,7 +34,7 @@ const mockData = [
 function App() {
   // const [todos, setTodos] = useState([]);
   const [todos, setTodos] = useState(mockData);
-  // 고유한 id 를 저장한 레퍼런스 객체
+  // 고유한 id 를 저장한 레퍼런스 객체그럼
   const idRef = useRef(3);
 
   // todos 를 변경시키는 핸들러 함수
@@ -52,11 +52,39 @@ function App() {
     // 이렇게 하면 안됨 상태변화 함수를 호출해서 수정해야만 state 변화를 감자해서 slot 주머니 저장을해서 반영을 함ㅇ
     setTodos([newTodo, ...todos]);
   };
+
+  // // todos 를 수정하게하는 핸들러  함수
+  // const onUpdate = (targetId) => {
+  //   // todos state의 값들 중에
+  //   // targetId와 일치하는 id를 갖는 투두 아이템의 isDone 변경
+
+  //   // 인수 : todos 배열에서 targetId 와 일치하는 id를 갖는 요소의 데이터만 딱 바꾼 새로운 배열
+  //   setTodos(
+  //     todos.map((todo) => {
+  //       if (todo.id === targetId) {
+  //         return {
+  //           ...todo,
+  //           isDone: !todo.isDone,
+  //         };
+  //       }
+  //       return todo;
+  //     }),
+  //   );
+  // };
+
+  // 간결하게 코드를 작성ㅇ
+  const onUpdate = (targetId) => {
+    setTodos(
+      todos.map((todo) =>
+        todo.id === targetId ? { ...todo, isDone: !todo.isDone } : todo,
+      ),
+    );
+  };
   return (
     <div className="App">
       <Header />
       <Editor onCreate={onCreate} />
-      <List todos={todos} />
+      <List todos={todos} onUpdate={onUpdate} />
     </div>
   );
 }
